@@ -23,12 +23,24 @@ public class Greep extends Creature {
 
     @Override
     protected void behave() {
-        if (isCarryingTomato()) {
+        // If Not Carrying A Tomato And At Tomato Pile, Pick Up The Tomato And Turn Towards Home
+        if ( !isCarryingTomato() && isAtTomatoes() ) {
+            // This method does not work, please try to get this to work (*note to self*)
+            loadTomato();
+            turnTowardsHome();
+        }
+        // If Carrying A Tomato, Go Back To Ship And Drop It Off
+        else if (isCarryingTomato() ) {
             if (isAtShip()) {
                 dropTomato();
-            } else {
+                // Something wrong with this logic
+            } else if (!(isAtWater() || isAtWorldEdge())){
                 turnTowardsHome();
             }
+        }
+        // If the Greep Runs Into Water Or The World Border, Turn Away From It.
+        else if (isAtWater() || isAtWorldEdge()){
+            turnRandomDegrees();
         }
         move();
     }
