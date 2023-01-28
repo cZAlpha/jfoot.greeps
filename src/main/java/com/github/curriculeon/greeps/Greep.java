@@ -33,13 +33,16 @@ public class Greep extends Creature {
         else if (isCarryingTomato() ) {
             if (isAtShip()) {
                 dropTomato();
-                // Something wrong with this logic
-            } else if (!(isAtWater() || isAtWorldEdge())){
+              // If Carrying A Tomato But Are Hitting A Boundary, Turn Away
+            } else if ( isAtWater() || isAtWorldEdge() ){
+                turnRandomDegrees();
+              // If Carrying A Tomato and Nothing In The Greep's Way
+            } else {
                 turnTowardsHome();
             }
         }
-        // If the Greep Runs Into Water Or The World Border, Turn Away From It.
-        else if (isAtWater() || isAtWorldEdge()){
+        // If the Greep Runs Into Water Or The World Border, Turn Away From It
+        else if ( isAtWater() || isAtWorldEdge() ){
             turnRandomDegrees();
         }
         move();
@@ -165,6 +168,6 @@ public class Greep extends Creature {
      */
 
     public static String getAuthorName() {
-        return "Anonymous";
+        return "Noah Klaus";
     }
 }
