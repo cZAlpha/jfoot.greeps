@@ -23,15 +23,9 @@ public class Greep extends Creature {
 
     @Override
     protected void behave() {
-        // If Not Carrying A Tomato And At Tomato Pile, Pick Up The Tomato And Turn Towards Home
-        if ( !isCarryingTomato() && isAtTomatoes() ) {
-            // This method does not work, please try to get this to work (*note to self*)
-            loadTomato();
-            turnTowardsHome();
-        }
-        // If Carrying A Tomato, Go Back To Ship And Drop It Off
-        else if (isCarryingTomato() ) {
-            if (isAtShip()) {
+        // If Carrying A Tomato
+        if ( isCarryingTomato() ) {
+            if ( isAtShip() ) {
                 dropTomato();
               // If Carrying A Tomato But Are Hitting A Boundary, Turn Away
             } else if ( isAtWater() || isAtWorldEdge() ){
@@ -41,10 +35,27 @@ public class Greep extends Creature {
                 turnTowardsHome();
             }
         }
-        // If the Greep Runs Into Water Or The World Border, Turn Away From It
-        else if ( isAtWater() || isAtWorldEdge() ){
-            turnRandomDegrees();
+        // If NOT Carrying A Tomato
+        if ( !isCarryingTomato() ) {
+            // Turn Towards Nearest Tomato Pile
+            turnTowards(getSurroundingTomatoPile());
+            // If Not Carrying A Tomato And At Tomato Pile, Pick That Hoe Up!
+            checkFood();
+            // If the Greep Runs Into Water Or The World Border, Turn Away From It
+            if ( isAtWater() || isAtWorldEdge() ) {
+                turnRandomDegrees();
+            }
+            // If At A Purple GreepSpit, Turn Towards Nearest Tomato Pile AND Check For Food
+            if ( isAtSpit("purple") ){
+                turnTowards(getSurroundingTomatoPile());
+                checkFood();
+            }
+            // If At A Tomato Pile, Spit Purple
+            if ( isAtTomatoes() ) {
+                spit("purple");
+            }
         }
+
         move();
     }
 
